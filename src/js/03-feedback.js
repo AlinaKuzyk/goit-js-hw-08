@@ -4,7 +4,11 @@ const formEl = document.querySelector('.feedback-form');
 const emailEl = document.querySelector('input');
 const messagelEl = document.querySelector('textarea');
 const LOCALE_STORAGE = 'feedback-form-state';
-let dataForm = {};
+
+const data = JSON.parse(localStorage.getItem(LOCALE_STORAGE)) || {
+  email: '',
+  message: '',
+};
 
 savedMessage();
 
@@ -15,16 +19,17 @@ const handleSubmitForm = event => {
 };
 
 const handleChangeForm = elem => {
-  dataForm[elem.target.name] = elem.target.value;
-  localStorage.setItem(LOCALE_STORAGE, JSON.stringify(dataForm));
-  console.log(dataForm);
+  data[elem.target.name] = elem.target.value;
+  localStorage.setItem(LOCALE_STORAGE, JSON.stringify(data));
 };
 
 function savedMessage() {
-  const data = JSON.parse(localStorage.getItem(LOCALE_STORAGE));
-  if (data) {
-    emailEl.value = data.email;
-    messagelEl.value = data.message;
+  const formData = data;
+  const email = emailEl;
+  const message = messagelEl;
+  if (formData) {
+    email.value = data.email;
+    message.value = data.message;
   }
 }
 
